@@ -59,3 +59,32 @@ jobs:
       - name: "Print secret from env"
         run: |
           echo "ENV secret ${{ secrets.ENV_SECRET1 }}"
+
+  output_example_steps:
+    runs-on: ubuntu-latest
+    outputs:
+      app_name: ${{ steps.var_source_step.outputs.var1_name }}
+      build_time: ${{ steps.var_source_step.outputs.var2_date }}
+
+    steps:
+      - name: Create-Variables
+        id: var_source_step
+        run: |
+          echo "var1_name=TechSkool" >> $GITHUB_OUTPUT
+          echo "var2_date=$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_OUTPUT
+
+      - name: Access-Variables
+        run: |
+            echo "Value: ${{ steps.var_source_step.outputs.var1_name }}"
+            echo "Value ${{ steps.var_source_step.outputs.var2_date }}"
+        
+
+  output_example_jobs:
+    needs: output_example_steps
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Reading other jobs value"
+        run: |
+            echo "Other jobs value: ${{ needs.output_example_steps.outputs.app_name }}"
+            echo "Other jobs value ${{ needs.output_example_steps.outputs.build_time }}"
