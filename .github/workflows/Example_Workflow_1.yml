@@ -48,3 +48,14 @@ jobs:
     steps:
       - run: |
           echo "My secret is: ${{ secrets.SECRET_VALUE}}"
+
+  env_example:
+    runs-on: ubuntu-latest
+    environment:
+      name: test_env
+      url: "https://github.com"
+    
+    steps:
+      - name: "Print secret from env"
+        run: |
+          echo "ENV secret ${{ secrets.ENV_SECRET1 }}"
