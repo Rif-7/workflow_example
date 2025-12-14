@@ -41,3 +41,10 @@ jobs:
 
     steps:
       - run: echo "My action jobs"
+  
+  secret_printer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: |
+          echo "My secret is: ${{ secrets.SECRET_VALUE}}"
